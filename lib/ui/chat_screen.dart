@@ -1,11 +1,16 @@
+import 'package:chatter_solo_serfers/ui/chat_vm.dart';
+import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class UISacfold extends StatelessWidget {
-  UISacfold({Key? key}) : super(key: key);
-  List<int> itemCount = [1,2];
+class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
+  const ChatScreen({
+    Key? key,
+    WidgetModelFactory wmFactory = ChatVMFactory,
+  }) : super(wmFactory, key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(IChatWidgetModel wm) {
     return Scaffold(
 
         appBar: AppBar(
@@ -14,30 +19,27 @@ class UISacfold extends StatelessWidget {
         ),
         body: Center(
           child: ListView.builder(
-            itemCount: itemCount.length,
+            itemCount: wm.list.length,
             itemBuilder: (context, position) {
-              return Text(itemCount[position].toString());
+              return Text(wm.list[position].toString());
             },
           ),
         ),
         floatingActionButton: Row(
           children: [
             FloatingActionButton(
-              onPressed: _incrementCounter,
+              onPressed: wm.diplay,
               tooltip: 'Increment',
               child: const Icon(Icons.add,
-                color: Colors.red),
+                  color: Colors.red),
             ),
             FloatingActionButton(
-              onPressed: _incrementCounter,
+              onPressed: wm.diplay,
               tooltip: 'Increment',
               child: const Icon(Icons.add,
                   color: Colors.red),
             ),
           ],
         ));
-  }
-
-  void _incrementCounter() {
   }
 }

@@ -1,5 +1,6 @@
 import 'package:chatter_solo_serfers/ui/chat_model.dart';
 import 'package:chatter_solo_serfers/ui/chat_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 
@@ -86,6 +87,15 @@ class ChatVM
 
   @override
   List<String> list = ["1","2"];
+
+  @override
+  bool chatMode = true;
+
+  @override
+  Query<Map<String, dynamic>> chat = FirebaseFirestore.instance.collection("daaaazzxczqwqe").orderBy("time") ;
+
+  @override
+  Stream stream = FirebaseFirestore.instance.collection("daaaazzxczqwqe").orderBy("time").snapshots() ;
 }
 
 /// Interface of [ChatWm]
@@ -96,8 +106,13 @@ abstract class IChatWidgetModel extends IWidgetModel {
   void diplay2(){
     print("da2");
   }
+  Query<Map<String, dynamic>> chat = FirebaseFirestore.instance.collection("daaaazzxczqwqe").orderBy("time") ;
+
+  late Stream stream;
   late List<String> list;
-  // ListenableState<EntityState<Iterable<Country>>> get countryListState;
+  late bool chatMode;
+
+// ListenableState<EntityState<Iterable<Country>>> get countryListState;
   //
   // TextStyle get countryNameStyle;
 }

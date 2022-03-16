@@ -1,21 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 /// Состояния для дейстий пользователя
-abstract class ChatState extends Equatable {}
+abstract class BaseChatState extends Equatable {}
 
 /// Состояние инициализации
-class InitialState extends ChatState {
+class InitialState extends BaseChatState {
   @override
   List<Object?> get props => [];
 }
 
 /// Состояние, которое хранит в себе затреканные даты
-class ChatStreamState extends ChatState {
+class ChatStreamState extends BaseChatState {
   ChatStreamState( {
     required this.chatStream
   });
 
-  final Stream? chatStream;
+  final Stream<QuerySnapshot> chatStream;
+
+
 
   @override
   List<Object?> get props => [];

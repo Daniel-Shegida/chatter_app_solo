@@ -1,3 +1,4 @@
+import 'package:chatter_solo_serfers/message.dart';
 import 'package:equatable/equatable.dart';
 
 /// Базовый класс для событий пользователя
@@ -12,15 +13,13 @@ class GetChatStream extends ChatEvent {
 
 /// Событие получения топиков
 class SendMessage extends ChatEvent {
-  late final String _message;
-  String get message => _message;
-  late final String _user;
-  String get user => _user;
+  late final Message _message;
+  Message get message => _message;
 
 
-  SendMessage({required String message, required String user}){
+
+  SendMessage({required Message message}){
     _message = message;
-    _user = user;
   }
 
   @override

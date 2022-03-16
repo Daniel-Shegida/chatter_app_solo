@@ -3,17 +3,18 @@
 import 'package:chatter_solo_serfers/service/events/bloc_event.dart';
 import 'package:chatter_solo_serfers/service/flutterFireRep.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Блок сервисного слоя для
-class ProfileBloc extends Bloc<ChatEvent, ChatState> {
+class ProfileBloc extends Bloc<ChatEvent, BaseChatState> {
   ProfileBloc({
     required this.chatRepository,
   }) : super(InitialState()) {
     /// Запрос затреканных дат и кол-ва дней пользователя
     on<GetChatStream>((event, emit) async {
       try {
-        final Stream? chatStream = chatRepository.getChatStream();
+        final Stream<QuerySnapshot> chatStream = chatRepository.getChatStream();
 
         emit(ChatStreamState(
           chatStream: chatStream,
@@ -25,8 +26,9 @@ class ProfileBloc extends Bloc<ChatEvent, ChatState> {
 
     /// Запрос получения тестов
     on<SendMessage>((event, emit) async {
+      print("send bloc");
       try {
-        chatRepository.sendChatMessage(event.message, event.user, DateTime.now());
+        chatRepository.sendChatMessage(event.message.textOfMessage, event.message.author, event.message.time);
       } catch(_) {
         // TODO: обработать ошибку
       }

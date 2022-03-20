@@ -1,6 +1,6 @@
 import 'package:chatter_solo_serfers/cart.dart';
-import 'package:chatter_solo_serfers/chatCard.dart';
-import 'package:chatter_solo_serfers/ui/chat_vm.dart';
+import 'package:chatter_solo_serfers/ui/widget/chatCard.dart';
+import 'package:chatter_solo_serfers/ui/screen/chat_vm.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';

@@ -1,8 +1,8 @@
 
 
-import 'package:chatter_solo_serfers/chatCard.dart';
+import 'package:chatter_solo_serfers/ui/widget/chatCard.dart';
 import 'package:chatter_solo_serfers/service/events/bloc_event.dart';
-import 'package:chatter_solo_serfers/service/flutterFireRep.dart';
+import 'package:chatter_solo_serfers/service/rep/flutterFireRep.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

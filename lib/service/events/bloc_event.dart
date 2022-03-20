@@ -1,4 +1,4 @@
-import 'package:chatter_solo_serfers/message.dart';
+import 'package:chatter_solo_serfers/common/classes/message.dart';
 import 'package:equatable/equatable.dart';
 
 /// Базовый класс для событий пользователя

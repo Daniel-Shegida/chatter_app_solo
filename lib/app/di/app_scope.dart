@@ -1,7 +1,7 @@
 import 'package:elementary/elementary.dart';
 
 import '../../service/bloc.dart';
-import '../../service/flutterFireRep.dart';
+import '../../service/rep/flutterFireRep.dart';
 import '../../utils/dialog_controller.dart';
 import '../../utils/error_handler.dart';
 

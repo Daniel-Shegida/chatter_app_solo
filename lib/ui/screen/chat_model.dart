@@ -1,11 +1,9 @@
 
 
-import 'package:chatter_solo_serfers/message.dart';
+import 'package:chatter_solo_serfers/common/classes/message.dart';
 import 'package:chatter_solo_serfers/service/bloc.dart';
 import 'package:chatter_solo_serfers/service/events/bloc_event.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
-import 'package:chatter_solo_serfers/ui/chat_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elementary/elementary.dart';
 
 /// Model for [ChatScreen]

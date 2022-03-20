@@ -1,6 +1,6 @@
 import 'package:chatter_solo_serfers/app/di/app_scope.dart';
 import 'package:chatter_solo_serfers/common/widget/di.dart';
-import 'package:chatter_solo_serfers/ui/chat_screen.dart';
+import 'package:chatter_solo_serfers/ui/screen/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 /// App widget.

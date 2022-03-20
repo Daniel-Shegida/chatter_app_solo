@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../chatCard.dart';
+import '../../ui/widget/chatCard.dart';
 
 /// Репозиторий для пользователя
 class ChatRepository {

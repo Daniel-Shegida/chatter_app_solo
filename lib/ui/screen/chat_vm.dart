@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:chatter_solo_serfers/app/di/app_scope.dart';
-import 'package:chatter_solo_serfers/chatCard.dart';
-import 'package:chatter_solo_serfers/message.dart';
-import 'package:chatter_solo_serfers/service/bloc.dart';
+import 'package:chatter_solo_serfers/ui/widget/chatCard.dart';
+import 'package:chatter_solo_serfers/common/classes/message.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
-import 'package:chatter_solo_serfers/ui/chat_model.dart';
-import 'package:chatter_solo_serfers/ui/chat_screen.dart';
+import 'package:chatter_solo_serfers/ui/screen/chat_model.dart';
+import 'package:chatter_solo_serfers/ui/screen/chat_screen.dart';
 import 'package:chatter_solo_serfers/utils/dialog_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elementary/elementary.dart';

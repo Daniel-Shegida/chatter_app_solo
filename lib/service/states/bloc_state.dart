@@ -1,4 +1,4 @@
-import 'package:chatter_solo_serfers/chatCard.dart';
+import 'package:chatter_solo_serfers/ui/widget/chatCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 

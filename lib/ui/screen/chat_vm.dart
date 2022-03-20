@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:chatter_solo_serfers/app/di/app_scope.dart';
-import 'package:chatter_solo_serfers/ui/widget/chatCard.dart';
+import 'package:chatter_solo_serfers/common/classes/data_chat_card.dart';
 import 'package:chatter_solo_serfers/common/classes/message.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
 import 'package:chatter_solo_serfers/ui/screen/chat_model.dart';
@@ -57,7 +57,7 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   TextEditingController get controller => _controller;
 
   @override
-  late Query<ChatCard2> stream ;
+  late Query<DataChatCard> stream ;
 
   @override
   bool  get isReady => _isReady;
@@ -192,7 +192,7 @@ abstract class IChatWidgetModel extends IWidgetModel {
   /// Text editing controller for [TextFormField].
   TextEditingController get controller;
 
-  Query<ChatCard2> get stream;
+  Query<DataChatCard> get stream;
 
   bool get chatMode;
 

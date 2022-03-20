@@ -27,12 +27,8 @@ class _AppState extends State<App> {
       factory: () {
         return _scope;
       },
-      child: const ChatScreen()
-      // MaterialApp.router(
-      //   routeInformationParser: AppRouteInformationParser(),
-      //   routerDelegate: AppRouterDelegate(_scope.coordinator),
-      // ),
+      /// enter into screen with no navigation
+      child: const ChatScreen(),
     );
   }
-
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// widget of chat card in chat screen
 class ChatCard extends StatelessWidget {
   const ChatCard(this.isUser, this.textOfCard, {Key? key}) : super(key: key);
   final bool isUser;
@@ -8,7 +9,7 @@ class ChatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       decoration: BoxDecoration(
         color: isUser ? Colors.red : Colors.blue,
         borderRadius: isUser

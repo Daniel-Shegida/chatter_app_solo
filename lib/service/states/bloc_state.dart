@@ -1,46 +1,22 @@
-import 'package:chatter_solo_serfers/ui/widget/chatCard.dart';
+import 'package:chatter_solo_serfers/common/classes/data_chat_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-/// Состояния для дейстий пользователя
+/// basic state of chat
 abstract class BaseChatState extends Equatable {}
 
-/// Состояние инициализации
+/// initializing state
 class InitialState extends BaseChatState {
   @override
   List<Object?> get props => [];
 }
 
-/// Состояние, которое хранит в себе затреканные даты
+/// state with chat stream (query)
 class ChatStreamState extends BaseChatState {
-  ChatStreamState( {
-    required this.chatStream
-  });
+  ChatStreamState({required this.chatStream});
 
-  final Query<ChatCard2> chatStream;
-
-
+  final Query<DataChatCard> chatStream;
 
   @override
   List<Object?> get props => [];
 }
-
-// /// Состояние показа тестов
-// class ShowTests extends ProfileState {
-//   ShowTests({required this.tests});
-//
-//   final List<Test> tests;
-//
-//   @override
-//   List<Object?> get props => [tests];
-// }
-//
-// /// Состояние показа топиков
-// class ShowTopics extends ProfileState {
-//   ShowTopics({required this.topics});
-//
-//   final List<Topic> topics;
-//
-//   @override
-//   List<Object?> get props => [topics];
-// }

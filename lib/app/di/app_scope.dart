@@ -9,8 +9,7 @@ import '../../utils/error_handler.dart';
 class AppScope implements IAppScope {
   late final ErrorHandler _errorHandler;
   late final ProfileBloc _profileBloc;
-  // late final ICitiesRepository _mockCitiesRepository;
-  // late final IInterestsRepository _mockInterestsRepository;
+  late final ChatRepository _chatRepository;
   late final DialogController _dialogController;
 
   @override
@@ -24,9 +23,9 @@ class AppScope implements IAppScope {
 
   /// Create an instance [AppScope].
   AppScope() {
-    ChatRepository rep = ChatRepository();
+    _chatRepository = ChatRepository();
     _errorHandler = DefaultErrorHandler();
-    _profileBloc = ProfileBloc(chatRepository: rep);
+    _profileBloc = ProfileBloc(chatRepository: _chatRepository);
     _dialogController = const DialogController();
   }
 }
@@ -36,10 +35,8 @@ abstract class IAppScope {
   /// Interface for handle error in business logic.
   ErrorHandler get errorHandler;
 
-
   /// Bloc for working with profile states.
   ProfileBloc get profileBloc;
-
 
   /// Controller for show dialogs.
   DialogController get dialogController;

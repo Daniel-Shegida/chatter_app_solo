@@ -9,7 +9,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-var sas =  NeverScrollableScrollPhysics;
+// var sas = NeverScrollableScrollPhysics;
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -21,9 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: App(),
-      // const ChatScreen(),
+      home: const App(),
     );
   }
 }
-

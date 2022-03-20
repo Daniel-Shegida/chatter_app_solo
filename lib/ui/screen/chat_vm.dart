@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:chatter_solo_serfers/app/di/app_scope.dart';
+import 'package:chatter_solo_serfers/assets/strings/strings.dart';
 import 'package:chatter_solo_serfers/common/classes/data_chat_card.dart';
 import 'package:chatter_solo_serfers/common/classes/message.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
@@ -32,10 +32,6 @@ ChatVM ChatVMFactory(BuildContext context,) {
 class ChatVM extends WidgetModel<ChatScreen, ChatModel>
     implements IChatWidgetModel {
 
-  // ChatVM(ChatModel model,
-  //     // this._themeWrapper,
-  //     ) : super(model);
-
   /// Controller for show [SnackBar].
   final DialogController dialogController;
 
@@ -43,14 +39,6 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   final _controller = TextEditingController();
   String _username = 'anon';
   bool _isReady = false;
-  int testint = 0;
-
-
-
-  // final testingStream  = FirebaseFirestore.instance.collection('daaaazzxczqwqe').withConverter<ChatCard2>(
-  //   fromFirestore: (snapshot, _) => ChatCard2.fromJson(snapshot.data()!),
-  //   toFirestore: (ChatCard2, _) => ChatCard2.toJson(),
-  // );
 
 
   @override
@@ -63,7 +51,6 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   bool  get isReady => _isReady;
 
   @override
-  // TODO: implement userName
   String get userName => _username;
 
   @override
@@ -84,16 +71,8 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    // _controller.addListener(
-    //     // _aboutMeTextChanged
-    // );
     _stateStatusSubscription = model.profileStateStream.listen(_updateState);
     _getChatStream();
-    // sub = stream.listen((event) {
-    //   print(event.docs.length);
-    //   print(event.docs.last.get("text"));
-    //   testint = event.docs.length;
-    // });
   }
 
   void _getChatStream() {
@@ -102,40 +81,27 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
 
   @override
   void dispose() {
-    _controller
-    // ..removeListener(_aboutMeTextChanged)
-      ..dispose();
     _stateStatusSubscription.cancel();
-    // _buttonState.dispose();
-    // _saveEntityState.dispose();
     super.dispose();
   }
 
   void _updateState(BaseChatState state) {
     if (state is ChatStreamState) {
-      print("getChat");
       _isReady = true;
       stream = state.chatStream;
       somePropertyWithIntegerValue2.accept(_isReady);
-
     }
-    // else if (state is ProfileSavedSuccessfullyState) {
-    //   coordinator.popUntilRoot();
-    // }
   }
 
 
   @override
   void sendMessage() {
-    print("send");
     model.sendMessage(Message(controller.text, userName, DateTime.now()));
   }
 
   @override
   void updateAboutMe() {
-    print("change");
     _username = controller.text;
-
     /// todo: доделать бд с юзернеймом
   }
 
@@ -144,39 +110,13 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
     String test = controller.text;
     controller.clear();
     if (test.trim() =="") {
-      print("its empty");
-      print(test);
-      print("its empty");
-
+      dialogController.showSnackBar(context, Strings.anonSnack);
     }
     else {
-      print("its not empty");
-      print(test);
-      print("its not empty");
-
     }
     chatMode = !chatMode;
     somePropertyWithIntegerValue.accept(chatMode);
-    print("and what");
-    print(chatMode);
-    _username = chatMode.toString();
-    print(userName);
-    print(stream);
-
-    print(testint);
-    FirebaseFirestore.instance
-        .collection('daaaazzxczqwqe')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        print(doc["text"]);
-      });
-    });
-
-    /// todo: доделать бд с юзернеймом
   }
-
-
 }
 
 @override
@@ -203,8 +143,6 @@ abstract class IChatWidgetModel extends IWidgetModel {
 
   late final StateNotifier<bool> somePropertyWithIntegerValue;
   late final StateNotifier<bool> somePropertyWithIntegerValue2;
-
-
 
   /// Function to save user info in [Profile].
   void updateAboutMe();

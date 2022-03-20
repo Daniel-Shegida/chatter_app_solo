@@ -5,6 +5,8 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 
+import '../../assets/strings/strings.dart';
+
 class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
   const ChatScreen({
     Key? key,
@@ -16,7 +18,7 @@ class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text("testing ground"),
+        title: const Text(Strings.chatTitle),
       ),
       body: GestureDetector(
         child: Column(
@@ -75,7 +77,7 @@ class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
 }
 
 class MessagePusher extends StatelessWidget {
-  MessagePusher(this.isChatMode, this.sendMessage, this.changeUser,
+  const MessagePusher(this.isChatMode, this.sendMessage, this.changeUser,
       this.changeMode, this.textEditingController,
       {Key? key})
       : super(key: key);
@@ -97,7 +99,7 @@ class MessagePusher extends StatelessWidget {
               icon: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   transitionBuilder: (child, anim) => RotationTransition(
-                        turns: child.key == ValueKey('icon1')
+                        turns: child.key == const ValueKey('icon1')
                             ? Tween<double>(begin: 0.75, end: 1).animate(anim)
                             : Tween<double>(begin: 0.75, end: 1).animate(anim),
                         child: FadeTransition(opacity: anim, child: child),
@@ -115,7 +117,7 @@ class MessagePusher extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               onChanged: (value) {},
               decoration: InputDecoration.collapsed(
-                hintText: 'Send a message...',
+                hintText: isChatMode ? Strings.sendHint : Strings.changeHint,
               ),
             ),
           ),

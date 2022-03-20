@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "454612590033",
+    "project_id": "testertok-d645c",
+    "storage_bucket": "testertok-d645c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454612590033:android:664d9fcc636ad5b84a54f0",
+        "android_client_info": {
+          "package_name": "com.example.chatter_solo_serfers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454612590033-5fst1fopfu6ibu2nuevvc1dahgmfre4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1IKD3W0CgpZwM1VGtm39JtTY978toDBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454612590033-5fst1fopfu6ibu2nuevvc1dahgmfre4a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

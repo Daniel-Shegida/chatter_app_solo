@@ -31,10 +31,12 @@ class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
             listenableState: wm.somePropertyWithIntegerValue2,
               builder: (ctx, value) {
                 return Expanded(
-                    child: true
+                    child: value ?? false
                     ?
                     FirestoreQueryBuilder<ChatCard2>(
-                        query: moviesCollection.orderBy('timestamp', descending: true),
+                        // query: moviesCollection,
+                        query: wm.stream,
+
                         builder: (context, snapshot, _) {
                           if (snapshot.isFetching) {
                             return const CircularProgressIndicator();
@@ -42,7 +44,6 @@ class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
                           if (snapshot.hasError) {
                             return Text('error ${snapshot.error}');
                           }
-
                           return ListView.builder(
                             reverse: true,
                             controller: ScrollController(),
@@ -56,7 +57,6 @@ class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
                                 // It is safe to call this function from within the build method.
                                 snapshot.fetchMore();
                               }
-
                               final movie = snapshot.docs[index];
                               return ChatCard(true, movie.get("text"));
                             },

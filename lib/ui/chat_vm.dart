@@ -1,28 +1,30 @@
 import 'dart:async';
 
+import 'package:chatter_solo_serfers/app/di/app_scope.dart';
 import 'package:chatter_solo_serfers/chatCard.dart';
 import 'package:chatter_solo_serfers/message.dart';
 import 'package:chatter_solo_serfers/service/bloc.dart';
-import 'package:chatter_solo_serfers/service/flutterFireRep.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
 import 'package:chatter_solo_serfers/ui/chat_model.dart';
 import 'package:chatter_solo_serfers/ui/chat_screen.dart';
+import 'package:chatter_solo_serfers/utils/dialog_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 /// Factory for [CountryListScreenWidgetModel]
 ChatVM ChatVMFactory(BuildContext context,) {
-  // final model = context.read<ChatModel>();
-  ChatRepository test = ChatRepository();
-  ProfileBloc test2 = ProfileBloc(chatRepository: test);
-  final model = ChatModel(test2);
-
-  // final theme = context.read<ThemeWrapper>();
+  final appDependencies = context.read<IAppScope>();
+  final model = ChatModel(
+    appDependencies.profileBloc,
+    appDependencies.errorHandler,
+  );
+  final dialogController = appDependencies.dialogController;
   return ChatVM(
-    model,
-    // theme
+    model: model,
+    dialogController: dialogController,
   );
 }
 
@@ -31,16 +33,20 @@ ChatVM ChatVMFactory(BuildContext context,) {
 class ChatVM extends WidgetModel<ChatScreen, ChatModel>
     implements IChatWidgetModel {
 
-  ChatVM(ChatModel model,
-      // this._themeWrapper,
-      ) : super(model);
+  // ChatVM(ChatModel model,
+  //     // this._themeWrapper,
+  //     ) : super(model);
+
+  /// Controller for show [SnackBar].
+  final DialogController dialogController;
 
   late final StreamSubscription<BaseChatState> _stateStatusSubscription;
   final _controller = TextEditingController();
   String _username = 'anon';
   bool _isReady = false;
-  late StreamSubscription sub;
   int testint = 0;
+
+
 
   // final testingStream  = FirebaseFirestore.instance.collection('daaaazzxczqwqe').withConverter<ChatCard2>(
   //   fromFirestore: (snapshot, _) => ChatCard2.fromJson(snapshot.data()!),
@@ -52,7 +58,7 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   TextEditingController get controller => _controller;
 
   @override
-  Stream<QuerySnapshot> stream = FirebaseFirestore.instance.collection("daaaazzxczqwqe").snapshots();
+  late Query<ChatCard2> stream ;
 
   @override
   bool  get isReady => _isReady;
@@ -70,13 +76,19 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   @override
   StateNotifier<bool> somePropertyWithIntegerValue2 = StateNotifier<bool>();
 
+  /// Create an instance [AboutMeScreenWidgetModel].
+  ChatVM({
+    required ChatModel model,
+    required this.dialogController,
+  }) : super(model);
+
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _stateStatusSubscription = model.chatStateStream.listen(_updateState);
     // _controller.addListener(
     //     // _aboutMeTextChanged
     // );
+    _stateStatusSubscription = model.profileStateStream.listen(_updateState);
     _getChatStream();
     // sub = stream.listen((event) {
     //   print(event.docs.length);
@@ -102,28 +114,10 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
 
   void _updateState(BaseChatState state) {
     if (state is ChatStreamState) {
-      stream = state.chatStream;
-      print("prepare");
-      print(somePropertyWithIntegerValue2.value);
-      print(_isReady);
+      print("getChat");
       _isReady = true;
-      print(_isReady);
-      print(stream);
+      stream = state.chatStream;
       somePropertyWithIntegerValue2.accept(_isReady);
-      print("we change 2 val to true");
-      // stream.listen((event)  {
-      //   print("event");
-      //   print(event);
-      //   print("event");
-      //
-      // },
-      // );
-      sub = stream.listen((event) {
-        print(event.docs.length);
-        print(event.docs.last.get("text"));
-        testint = event.docs.length;
-      });
-
 
     }
     // else if (state is ProfileSavedSuccessfullyState) {
@@ -186,16 +180,6 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
 
 }
 
-// void _aboutMeTextChanged() {
-//   if (_initialInfo != _controller.text) {
-//     _buttonState.accept(AboutMeScreenStrings.saveButtonTitle);
-//     model.updateAboutMe(_controller.text);
-//   } else {
-//     _buttonState.accept(AboutMeScreenStrings.okButtonTitle);
-//     model.cancelEditing();
-//   }
-// }
-
 @override
 void onErrorHandle(Object error) {
   // super.onErrorHandle(error);
@@ -209,7 +193,7 @@ abstract class IChatWidgetModel extends IWidgetModel {
   /// Text editing controller for [TextFormField].
   TextEditingController get controller;
 
-  Stream<QuerySnapshot>? get stream;
+  Query<ChatCard2> get stream;
 
   bool get chatMode;
 
@@ -217,7 +201,6 @@ abstract class IChatWidgetModel extends IWidgetModel {
 
   bool get isReady;
 
-  // var get testingStream;
 
   late final StateNotifier<bool> somePropertyWithIntegerValue;
   late final StateNotifier<bool> somePropertyWithIntegerValue2;
@@ -231,9 +214,4 @@ abstract class IChatWidgetModel extends IWidgetModel {
 
   void changeMode();
 
-
-
-// ListenableState<EntityState<Iterable<Country>>> get countryListState;
-//
-// TextStyle get countryNameStyle;
 }

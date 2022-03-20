@@ -1,28 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../chatCard.dart';
+
 /// Репозиторий для пользователя
 class ChatRepository {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   Query<Map<String, dynamic>> chat =
       FirebaseFirestore.instance.collection("daaaazzxczqwqe");
-
-  ChatRepository(
-  // {
-  //   // required this.profileApi,
-  //   // required this.userStorage,
-  // }
-  );
-
-  // final UserStorage userStorage;
-  // final ProfileApi profileApi;
+  Stream<QuerySnapshot> stream =
+      FirebaseFirestore.instance.collection("daaaazzxczqwqe").snapshots();
 
   /// Получение списка тестов, которые имеют ответы
   void sendChatMessage(
     String message,
     String user,
-      DateTime time,
+    DateTime time,
   ) {
     print("send rep");
-    FirebaseFirestore.instance.collection('daaaazzxczqwqe').add(<String, dynamic>{
+    FirebaseFirestore.instance
+        .collection('daaaazzxczqwqe')
+        .add(<String, dynamic>{
       'text': message,
       'user': user,
       'timestamp': time,
@@ -30,8 +27,15 @@ class ChatRepository {
   }
 
   /// Получение списка, прогресс которых больше 0
-  Stream<QuerySnapshot> getChatStream() {
-    final Stream<QuerySnapshot> topicResponse = chat.snapshots();
-    return topicResponse;
+  Query<ChatCard2> getChatStream() {
+    final Query<ChatCard2> chatQuerry = FirebaseFirestore.instance
+        .collection('daaaazzxczqwqe')
+        .orderBy('timestamp', descending: true)
+        .withConverter<ChatCard2>(
+          fromFirestore: (snapshot, _) => ChatCard2.fromJson(snapshot.data()!),
+          toFirestore: (ChatCard2, _) => ChatCard2.toJson(),
+        );
+    return chatQuerry;
   }
 }
+

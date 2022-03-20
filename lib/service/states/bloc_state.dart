@@ -1,3 +1,4 @@
+import 'package:chatter_solo_serfers/chatCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -16,7 +17,7 @@ class ChatStreamState extends BaseChatState {
     required this.chatStream
   });
 
-  final Stream<QuerySnapshot> chatStream;
+  final Query<ChatCard2> chatStream;
 
 
 

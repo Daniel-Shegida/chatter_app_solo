@@ -1,5 +1,6 @@
 
 
+import 'package:chatter_solo_serfers/chatCard.dart';
 import 'package:chatter_solo_serfers/service/events/bloc_event.dart';
 import 'package:chatter_solo_serfers/service/flutterFireRep.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
@@ -14,7 +15,7 @@ class ProfileBloc extends Bloc<ChatEvent, BaseChatState> {
     /// Запрос затреканных дат и кол-ва дней пользователя
     on<GetChatStream>((event, emit) async {
       try {
-        final Stream<QuerySnapshot> chatStream = chatRepository.getChatStream();
+        final Query<ChatCard2> chatStream = chatRepository.getChatStream();
 
         emit(ChatStreamState(
           chatStream: chatStream,

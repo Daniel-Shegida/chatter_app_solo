@@ -5,6 +5,7 @@ import 'package:chatter_solo_serfers/service/bloc.dart';
 import 'package:chatter_solo_serfers/service/events/bloc_event.dart';
 import 'package:chatter_solo_serfers/service/states/bloc_state.dart';
 import 'package:chatter_solo_serfers/ui/chat_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elementary/elementary.dart';
 
 /// Model for [ChatScreen]
@@ -14,26 +15,22 @@ class ChatModel extends ElementaryModel {
   /// Create an instance [ChatModel].
   ChatModel(
       this._chatBloc,
-      // ErrorHandler errorHandler,
-      ) : super(
-      // errorHandler: errorHandler
-  );
-
+      ErrorHandler errorHandler,
+      ) : super(errorHandler: errorHandler);
 
 
 
   final ProfileBloc _chatBloc;
-  /// Stream to track the state of the [ProfileBloc].
-  Stream<BaseChatState> get chatStateStream => _chatBloc.stream;
-
   /// Gives the current state.
   BaseChatState get currentState => _chatBloc.state;
 
   Stream? steam;
 
+  /// Stream to track the state of the [ProfileBloc].
+  Stream<BaseChatState> get profileStateStream => _chatBloc.stream;
+
   /// Method for update info about user.
   void sendMessage(Message message) {
-    print("sendModel");
     _chatBloc.add(SendMessage(message: message));
   }
 

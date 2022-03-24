@@ -24,13 +24,13 @@ class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
         child: Column(
           children: [
             Expanded(
-              child: StateNotifierBuilder<bool>(
-                listenableState: wm.somePropertyWithIntegerValue2,
-                builder: (ctx, value) {
+              child: DoubleSourceBuilder<bool, String>(
+                firstSource: wm.prepareStatusValue,
+                secondSource: wm.userNameValue,
+                builder: (ctx, value, user) {
                   return Expanded(
                     child: value ?? false
                         ? FirestoreQueryBuilder<DataChatCard>(
-                            // query: moviesCollection,
                             query: wm.stream,
                             builder: (context, snapshot, _) {
                               if (snapshot.isFetching) {
@@ -44,26 +44,23 @@ class ChatScreen extends ElementaryWidget<IChatWidgetModel> {
                                 controller: ScrollController(),
                                 itemCount: snapshot.docs.length,
                                 itemBuilder: (context, index) {
-                                  // if we reached the end of the currently obtained items, we try to
-                                  // obtain more items
                                   if (snapshot.hasMore &&
                                       index + 1 == snapshot.docs.length) {
-                                    // Tell FirestoreQueryBuilder to try to obtain more items.
-                                    // It is safe to call this function from within the build method.
                                     snapshot.fetchMore();
                                   }
-                                  final movie = snapshot.docs[index];
-                                  return ChatCard(true, movie.get("text"));
+                                  final chat = snapshot.docs[index];
+                                  return ChatCard((chat.get("user") == user),
+                                      chat.get("text"));
                                 },
                               );
                             })
-                        : Text("da"),
+                        : const CircularProgressIndicator(),
                   );
                 },
               ),
             ),
             StateNotifierBuilder<bool>(
-              listenableState: wm.somePropertyWithIntegerValue,
+              listenableState: wm.chatModeValue,
               builder: (ctx, value) {
                 return MessagePusher(value ?? false, wm.sendMessage,
                     wm.updateAboutMe, wm.changeMode, wm.controller);
@@ -105,10 +102,13 @@ class MessagePusher extends StatelessWidget {
                         child: FadeTransition(opacity: anim, child: child),
                       ),
                   child: isChatMode
-                      ? const Icon(Icons.account_circle, key: ValueKey('icon1'))
-                      : const Icon(
+                      ? const Icon(
                           Icons.add_comment,
                           key: ValueKey('icon2'),
+                        )
+                      : const Icon(
+                          Icons.account_circle,
+                          key: ValueKey('icon1'),
                         )),
               onPressed: changeMode),
           Expanded(

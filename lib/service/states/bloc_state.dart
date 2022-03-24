@@ -18,5 +18,5 @@ class ChatStreamState extends BaseChatState {
   final Query<DataChatCard> chatStream;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [chatStream];
 }

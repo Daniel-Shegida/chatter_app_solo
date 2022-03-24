@@ -21,5 +21,5 @@ class SendMessage extends ChatEvent {
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [_message];
 }

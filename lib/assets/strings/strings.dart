@@ -5,6 +5,9 @@ class Strings {
   static const String chatTitle = 'Flutter cry';
 
   /// Validation error text.
+  static const String collectionName = 'flutterCry';
+
+  /// Validation error text.
   static const String warningValidation = 'Select at least one item';
 
   /// Text to display an error when loading a list interests.

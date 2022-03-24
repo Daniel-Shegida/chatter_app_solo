@@ -12,9 +12,10 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 /// Factory for [CountryListScreenWidgetModel]
-ChatVM ChatVMFactory(BuildContext context,) {
+ChatVM ChatVMFactory(
+  BuildContext context,
+) {
   final appDependencies = context.read<IAppScope>();
   final model = ChatModel(
     appDependencies.profileBloc,
@@ -27,11 +28,9 @@ ChatVM ChatVMFactory(BuildContext context,) {
   );
 }
 
-
 /// Widget Model for [CountryListScreen]
 class ChatVM extends WidgetModel<ChatScreen, ChatModel>
     implements IChatWidgetModel {
-
   /// Controller for show [SnackBar].
   final DialogController dialogController;
 
@@ -40,15 +39,14 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   String _username = 'anon';
   bool _isReady = false;
 
-
   @override
   TextEditingController get controller => _controller;
 
   @override
-  late Query<DataChatCard> stream ;
+  late Query<DataChatCard> stream;
 
   @override
-  bool  get isReady => _isReady;
+  bool get isReady => _isReady;
 
   @override
   String get userName => _username;
@@ -57,10 +55,13 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   bool chatMode = false;
 
   @override
-  StateNotifier<bool> somePropertyWithIntegerValue = StateNotifier<bool>();
+  StateNotifier<bool> chatModeValue = StateNotifier<bool>();
 
   @override
-  StateNotifier<bool> somePropertyWithIntegerValue2 = StateNotifier<bool>();
+  StateNotifier<bool> prepareStatusValue = StateNotifier<bool>();
+
+  @override
+  StateNotifier<String> userNameValue = StateNotifier<String>();
 
   /// Create an instance [AboutMeScreenWidgetModel].
   ChatVM({
@@ -71,8 +72,15 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
   @override
   void initWidgetModel() {
     super.initWidgetModel();
+    _acceptValues();
     _stateStatusSubscription = model.profileStateStream.listen(_updateState);
     _getChatStream();
+  }
+
+  /// maybe no need, but for now
+  void _acceptValues() {
+    chatModeValue.accept(chatMode);
+    userNameValue.accept(_username);
   }
 
   void _getChatStream() {
@@ -89,43 +97,48 @@ class ChatVM extends WidgetModel<ChatScreen, ChatModel>
     if (state is ChatStreamState) {
       _isReady = true;
       stream = state.chatStream;
-      somePropertyWithIntegerValue2.accept(_isReady);
+      prepareStatusValue.accept(_isReady);
     }
   }
 
-
   @override
   void sendMessage() {
-    model.sendMessage(Message(controller.text, userName, DateTime.now()));
+    if (controller.text.trim() != "") {
+      model.sendMessage(
+        Message(
+          controller.text,
+          userName,
+          DateTime.now(),
+        ),
+      );
+    }
+    controller.clear();
   }
 
   @override
   void updateAboutMe() {
-    _username = controller.text;
-    /// todo: доделать бд с юзернеймом
+    if (controller.text.trim() != "") {
+      _username = controller.text;
+      userNameValue.accept(_username);
+    }
+    controller.clear();
   }
 
   @override
   void changeMode() {
-    String test = controller.text;
     controller.clear();
-    if (test.trim() =="") {
+    if (_username == 'anon' && chatMode == false) {
       dialogController.showSnackBar(context, Strings.anonSnack);
     }
-    else {
-    }
     chatMode = !chatMode;
-    somePropertyWithIntegerValue.accept(chatMode);
+    chatModeValue.accept(chatMode);
   }
 }
 
 @override
 void onErrorHandle(Object error) {
   // super.onErrorHandle(error);
-
 }
-
-
 
 /// Interface of [ChatWm]
 abstract class IChatWidgetModel extends IWidgetModel {
@@ -140,9 +153,9 @@ abstract class IChatWidgetModel extends IWidgetModel {
 
   bool get isReady;
 
-
-  late final StateNotifier<bool> somePropertyWithIntegerValue;
-  late final StateNotifier<bool> somePropertyWithIntegerValue2;
+  late final StateNotifier<bool> chatModeValue;
+  late final StateNotifier<bool> prepareStatusValue;
+  late final StateNotifier<String> userNameValue;
 
   /// Function to save user info in [Profile].
   void updateAboutMe();
@@ -150,5 +163,4 @@ abstract class IChatWidgetModel extends IWidgetModel {
   void sendMessage();
 
   void changeMode();
-
 }

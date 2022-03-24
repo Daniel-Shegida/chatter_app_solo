@@ -1,16 +1,13 @@
 # chatter_solo_serfers
+# future name: elementary + bloc + flutterfire
 
-A new Flutter project.
+небольшой эксперимент по испытанию архитектуры на маленьком чате
 
-## Getting Started
+## Прогресс 
+UI: status ready 
+logic: status ready
+![Animation](https://user-images.githubusercontent.com/47796424/159833081-b899d047-01e6-40fd-a2db-ef6eb5aebb3a.gif)
+elementary + bloc: status ready
+flutter fire: status ... it works... halp
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
